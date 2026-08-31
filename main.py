@@ -1,5 +1,8 @@
 import yfinance as yf
-##using five large companies to begin, won't come to a valid conclusion but everythibg can workd
+from src.factors import calculate_momentum
+from src.factors import calculate_volatility
+from src.factors import calculate_value
+
 tickers = ["AAPL", "MSFT", "NVDA", "AMZN", "JPM", "META"]
 
 data = yf.download(
@@ -10,6 +13,8 @@ data = yf.download(
 
 prices = data["Close"]
 returns = prices.pct_change()
+momentum = calculate_momentum(prices)
+volatility = calculate_volatility(returns)
 
 print("Closing Prices:")
 print(prices.head())
@@ -17,11 +22,9 @@ print(prices.head())
 print("\nDaily Returns (%):")
 print((returns * 100).head())
 
-print("\nDataset Shape:")
-print(prices.shape)
+print("\nMomentum:")
+print(momentum.tail())
 
-print("\nSummary Statistics:")
-print(returns.describe())
-
-#Momentum
+print("\nVolatility:")
+print(volatility.tail())
 
